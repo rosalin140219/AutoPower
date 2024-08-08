@@ -1,0 +1,23 @@
+{
+  "adsConfig": {
+    "url": "",
+    "userId": "",
+    "apiKey": "",
+    "maxSerialNumber":
+  },
+
+  "wallet": [
+    {
+       "serialNumber": "1",
+        "metamask": {
+          "address": "",
+          "recovery_phrase": "",
+          "private_key": "",
+          "password": ""
+        }
+    }
+  ],
+  "yescaptcha": {
+    "clientKey": ""
+  }
+}

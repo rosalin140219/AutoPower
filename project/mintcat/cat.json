@@ -1,0 +1,16 @@
+[
+  {
+    "env": 0,
+    "token_id": 1111,
+    "address": "钱包地址",
+    "private_key": "钱包私钥",
+    "friends":[]
+  },
+  {
+    "env": 1,
+    "token_id": 1112,
+    "address": "钱包地址",
+    "private_key": "钱包私钥",
+    "friends":[]
+  }
+]

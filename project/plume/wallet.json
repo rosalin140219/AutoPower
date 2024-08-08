@@ -1,0 +1,14 @@
+[
+  {
+    "env": 1,
+    "address": "钱包地址",
+    "private_key": "钱包私钥",
+    "proxy": "代理地址"
+  },
+  {
+    "env": 2,
+    "address": "钱包地址",
+    "private_key": "钱包私钥",
+    "proxy": "代理地址"
+  }
+]
