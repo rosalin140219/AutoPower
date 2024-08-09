@@ -20,7 +20,7 @@ class Checkin(object):
     def check_in(self):
         try:
             w3 = Web3(HTTPProvider("https://plume-testnet.rpc.caldera.xyz/http"))
-            with open('checkin_abi.json', 'r') as f:
+            with open('./checkin/checkin_abi.json', 'r') as f:
                 abi = json.load(f)
             contract = w3.eth.contract(address=self.checkin_contract_address, abi=abi)
             func = contract.functions.checkIn()
@@ -37,22 +37,3 @@ class Checkin(object):
             logger.info(f"签到成功，交易hash地址: {hash}")
         except Exception as e:
             logger.error(f"地址:{self.address}签到失败，失败原因:{e}")
-
-
-if __name__ == '__main__':
-
-    with open('../wallet.json', 'r') as f:
-        wallets = json.load(f)
-
-    # 签到
-    for wallet in wallets:
-        try:
-            env = wallet['env']
-            logger.info(f"正在执行环境:{env}的签到")
-            address = wallet['address']
-            private_key = wallet['private_key']
-            proxy = wallet['proxy']
-            plume = Checkin(address, private_key, proxy)
-            plume.check_in()
-        except Exception as e:
-            logger.error(f"环境:{wallet['env']}签到失败，失败原因:{e}")

@@ -19,7 +19,7 @@ class PlumeArc(object):
         #合约信息
         self.arc_contract_address = "0x485D972889Ee8fd0512403E32eE94dE5c7a5DC7b"
         self.arc_contract_name = "ERC1967Proxy"
-        with open('arc_abi.json', 'r') as ff:
+        with open('./arc/arc_abi.json', 'r') as ff:
             self.arc_abi = json.load(ff)
 
         # token项目列表: 名称-图片
@@ -59,16 +59,3 @@ class PlumeArc(object):
         tx_url = self.scan_url + "tx/" + w3.to_hex(txn)
         logger.info(f"create item in Plume Arc success, tx:{tx_url}")
         return txn
-
-
-if __name__ == '__main__':
-    with open('../wallet.json', 'r') as f:
-        wallets = json.load(f)
-    for wallet in wallets:
-        env = wallet['env']
-        logger.info(f"正在执行环境:{env}的PlumeArc项目操作")
-        address = wallet['address']
-        private_key = wallet['private_key']
-        arc = PlumeArc(address, private_key)
-        arc.create_token()
-

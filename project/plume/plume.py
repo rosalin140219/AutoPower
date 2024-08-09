@@ -14,7 +14,7 @@ from project.plume.landshare.landshare import LandShare
 from project.plume.neststaking.neststaking import NestStaking
 
 if __name__ == '__main__':
-    with open('../wallet.json', 'r') as f:
+    with open('wallet.json', 'r') as f:
         wallets = json.load(f)
 
     for wallet in wallets:
@@ -31,6 +31,7 @@ if __name__ == '__main__':
         except Exception as e:
             logger.error(f"环境:{wallet['env']}签到失败，失败原因:{e}")
 
+        time.sleep(10)
         # 领水
         faucet = Faucet(address, private_key, proxy)
         try:
@@ -44,20 +45,22 @@ if __name__ == '__main__':
         except Exception as e:
             logger.error(f"环境:{wallet['env']}领水GOON失败，失败原因:{e}")
 
+        time.sleep(20)
         # ambient
         try:
             ambient = Ambient(address, private_key)
             ambient.swap()
         except Exception as e:
             logger.error(f"环境:{wallet['env']}执行swap失败，失败原因:{e}")
-
         # arc
+        time.sleep(20)
         try:
             arc = PlumeArc(address, private_key)
             arc.create_token()
         except Exception as e:
             logger.error(f"环境:{wallet['env']}执行ARC失败，失败原因:{e}")
 
+        time.sleep(20)
         # cultured
         try:
             cultured = Cultured(address, private_key)
@@ -66,6 +69,7 @@ if __name__ == '__main__':
         except Exception as e:
             logger.error(f"环境:{wallet['env']}执行Cultured预测失败，失败原因:{e}")
 
+        time.sleep(20)
         # kuma
         kuma = Kuma(address, private_key)
         try:
@@ -85,12 +89,14 @@ if __name__ == '__main__':
         except Exception as e:
             logger.error(f"环境:{wallet['env']}执行SellBond失败，失败原因:{e}")
 
+        time.sleep(20)
         # landshare
         land_share = LandShare(address, private_key)
         try:
             land_share.approve_gnusd()
         except Exception as e:
             logger.error(f"环境:{wallet['env']}执行LandShare:approve_gnUsd失败，失败原因:{e}")
+
         time.sleep(10)
 
         try:
@@ -110,14 +116,15 @@ if __name__ == '__main__':
         except Exception as e:
             logger.error(f"环境:{wallet['env']}执行LandShare:deposit失败，失败原因:{e}")
 
+        time.sleep(20)
         # neststaking
         nest = NestStaking(address, private_key)
         try:
             nest.approve_gnusd(100000000000000000000)
         except Exception as e:
             logger.error(f"环境:{wallet['env']}执行staking:approve失败，失败原因:{e}")
-        time.sleep(10)
 
+        time.sleep(10)
         try:
             nest.stake(100000000000000000000)
         except Exception as e:

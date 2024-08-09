@@ -21,7 +21,7 @@ class Ambient(object):
         self.address = address
         self.private_key = private_key
 
-        with open('ambient_abi.json', 'r') as ff:
+        with open('./ambient/ambient_abi.json', 'r') as ff:
             self.abi = json.load(ff)
 
     def swap(self):
@@ -40,18 +40,3 @@ class Ambient(object):
         txn = w3.eth.send_raw_transaction(signed_tx.rawTransaction)
         tx_url = self.scan_url + "tx/" + w3.to_hex(txn)
         logger.info(f"swap GOON to gnUSD success, tx:{tx_url}")
-
-
-if __name__ == '__main__':
-    with open('../wallet.json', 'r') as f:
-        wallets = json.load(f)
-    for wallet in wallets:
-        try:
-            env = wallet['env']
-            logger.info(f"正在执行环境:{env}的swap")
-            address = wallet['address']
-            private_key = wallet['private_key']
-            ambient = Ambient(address, private_key)
-            ambient.swap()
-        except Exception as e:
-            logger.error(f"环境:{wallet['env']}执行swap失败，失败原因:{e}")

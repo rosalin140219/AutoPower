@@ -23,7 +23,7 @@ class Cultured(object):
         self.cultured_contract_address = "0x032139f44650481f4d6000c078820B8E734bF253"
         self.cultured_contract_name = "ERC1967Proxy"
         # abi
-        with open('oracle_game_abi.json', 'r') as ff:
+        with open('./cultured/oracle_game_abi.json', 'r') as ff:
             self.oracle_game_abi = json.load(ff)
 
         # 加密货币预测
@@ -105,15 +105,3 @@ class Cultured(object):
             return result == '0x'
         else:
             return False
-
-
-if __name__ == '__main__':
-    with open('../wallet.json', 'r') as f:
-        wallets = json.load(f)
-    for wallet in wallets:
-        env = wallet['env']
-        logger.info(f"正在执行环境:{env}的Cultured项目操作")
-        address = wallet['address']
-        private_key = wallet['private_key']
-        cultured = Cultured(address, private_key)
-        cultured.predict_price_movement("forex")

@@ -19,25 +19,25 @@ class LandShare(object):
         #合约信息 land swap
         self.land_swap_contract_address = "0xd2aade12760d5e176f93c8f1c6ae10667c8fca8b"
         self.land_swap_contract_name = "LandshareSwap"
-        with open('land_swap_abi.json', 'r') as ff:
+        with open('./landshare/land_swap_abi.json', 'r') as ff:
             self.land_swap_abi = json.load(ff)
 
         #合约信息 approve gnUSD
         self.approve_contract_address = "0x5c1409a46cD113b3A667Db6dF0a8D7bE37ed3BB3"
         self.approve_contract_name = "ERC1967Proxy"
-        with open('gnusd_abi.json', 'r') as ff:
+        with open('./landshare/gnusd_abi.json', 'r') as ff:
             self.gnusd_abi = json.load(ff)
 
         # master chef contract
         self.master_chef_contract_address = "0x5374cf69c5610950526c668a7b540df6686531b4"
         self.master_chef_contract_name = "MasterChef"
-        with open('master_chef_abi.json', 'r') as ff:
+        with open('./landshare/master_chef_abi.json', 'r') as ff:
             self.master_chef_abi = json.load(ff)
 
         # land share token
         self.land_share_token_contract_address = "0x45934E0253955dE498320D67c0346793be44BEC0"
         self.land_share_token_contract_name = "LandshareToken"
-        with open('land_share_token_abi.json', 'r') as ff:
+        with open('./landshare/land_share_token_abi.json', 'r') as ff:
             self.land_share_token_abi = json.load(ff)
 
     """
@@ -133,36 +133,3 @@ class LandShare(object):
         tx_url = self.scan_url + "tx/" + w3.to_hex(txn)
         logger.info(f"deposit land success, tx:{tx_url}")
         return txn
-
-
-if __name__ == '__main__':
-    with open('../wallet.json', 'r') as f:
-        wallets = json.load(f)
-    for wallet in wallets:
-        env = wallet['env']
-        logger.info(f"正在执行环境:{env}的LandShare项目操作")
-        address = wallet['address']
-        private_key = wallet['private_key']
-        land_share = LandShare(address, private_key)
-        try:
-            land_share.approve_gnusd()
-        except Exception as e:
-            logger.error(f"环境:{wallet['env']}执行LandShare:approve_gnUsd失败，失败原因:{e}")
-        time.sleep(10)
-
-        try:
-            land_share.swap()
-        except Exception as e:
-            logger.error(f"环境:{wallet['env']}执行LandShare:swapLand失败，失败原因:{e}")
-        time.sleep(10)
-
-        try:
-            land_share.approve_land()
-        except Exception as e:
-            logger.error(f"环境:{wallet['env']}执行LandShare:approveLand失败，失败原因:{e}")
-
-        time.sleep(10)
-        try:
-            land_share.deposit()
-        except Exception as e:
-            logger.error(f"环境:{wallet['env']}执行LandShare:deposit失败，失败原因:{e}")

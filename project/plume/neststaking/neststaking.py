@@ -20,10 +20,10 @@ class NestStaking(object):
         self.address = address
         self.private_key = private_key
 
-        with open('neststaking_abi.json', 'r') as ff:
+        with open('./neststaking/neststaking_abi.json', 'r') as ff:
             self.abi = json.load(ff)
 
-        with open('gnusd_abi.json', 'r') as ff:
+        with open('./neststaking/gnusd_abi.json', 'r') as ff:
             self.gnusd_abi = json.load(ff)
 
     def approve_gnusd(self, amount):
@@ -82,24 +82,3 @@ class NestStaking(object):
         txn = w3.eth.send_raw_transaction(signed_tx.rawTransaction)
         tx_url = self.scan_url + "tx/" + w3.to_hex(txn)
         logger.info(f"claim all rewards success, tx:{tx_url}")
-
-
-if __name__ == '__main__':
-    with open('../wallet.json', 'r') as f:
-        wallets = json.load(f)
-    for wallet in wallets:
-        env = wallet['env']
-        logger.info(f"正在执行环境:{env}的staking操作")
-        address = wallet['address']
-        private_key = wallet['private_key']
-        nest = NestStaking(address, private_key)
-        try:
-            nest.approve_gnusd(100000000000000000000)
-        except Exception as e:
-            logger.error(f"环境:{wallet['env']}执行staking:approve失败，失败原因:{e}")
-        time.sleep(10)
-
-        try:
-            nest.stake(100000000000000000000)
-        except Exception as e:
-            logger.error(f"环境:{wallet['env']}执行staking:stake失败，失败原因:{e}")

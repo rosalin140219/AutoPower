@@ -16,7 +16,7 @@ class Faucet(object):
         self.proxy = proxy
 
     def faucet(self, token):
-        with open('faucet_abi.json', 'r') as ff:
+        with open('./faucet/faucet_abi.json', 'r') as ff:
             abi = json.load(ff)
         sign_res = self.get_sign(token)
         logger.info(f"get faucet token: {token} sign response:{sign_res}")
@@ -55,26 +55,3 @@ class Faucet(object):
         else:
             response = requests.request("POST", url, headers=headers, data=payload)
         return json.loads(response.text)
-
-
-if __name__ == '__main__':
-    with open('../wallet.json', 'r') as wf:
-        wallets = json.load(wf)
-    # 领水
-    for wallet in wallets:
-        env = wallet['env']
-        logger.info(f"正在执行环境:{env}的领水")
-        address = wallet['address']
-        private_key = wallet['private_key']
-        proxy = wallet['proxy']
-        faucet = Faucet(address, private_key, proxy)
-        try:
-            faucet.faucet("ETH")
-        except Exception as e:
-            logger.error(f"环境:{wallet['env']}领水ETH失败，失败原因:{e}")
-
-        time.sleep(10)
-        try:
-            faucet.faucet("GOON")
-        except Exception as e:
-            logger.error(f"环境:{wallet['env']}领水GOON失败，失败原因:{e}")

@@ -26,10 +26,10 @@ class SolidViolet(object):
         self.address = address
         self.private_key = private_key
 
-        with open('abi.json', 'r') as ff:
+        with open('./solidviolet/abi.json', 'r') as ff:
             self.abi = json.load(ff)
 
-        with open('gnusd_abi.json', 'r') as ff:
+        with open('./solidviolet/gnusd_abi.json', 'r') as ff:
             self.gnusd_abi = json.load(ff)
 
     def approve(self, amount):
@@ -86,20 +86,3 @@ class SolidViolet(object):
         tx_url = self.scan_url + "tx/" + w3.to_hex(txn)
         logger.info(f"execute swap gnusd for usd success, tx:{tx_url}")
         return txn
-
-
-if __name__ == '__main__':
-    with open('../wallet.json', 'r') as f:
-        wallets = json.load(f)
-    for wallet in wallets:
-        try:
-            env = wallet['env']
-            logger.info(f"正在执行环境:{env}的SolidViolet合约的approve操作")
-            address = wallet['address']
-            private_key = wallet['private_key']
-            solid_violet = SolidViolet(address, private_key)
-            # solid_violet.approve(1000000000000000000)
-            # time.sleep(10)
-            solid_violet.execute_swap(1000000000000000000, 1000000)
-        except Exception as e:
-            logger.error(f"环境:{wallet['env']}SolidViolet合约的approve操作失败，失败原因:{e}")

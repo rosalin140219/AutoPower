@@ -29,13 +29,13 @@ class Kuma(object):
         self.address = address
         self.private_key = private_key
 
-        with open('kuma_abi.json', 'r') as ff:
+        with open('./kuma/kuma_abi.json', 'r') as ff:
             self.abi = json.load(ff)
 
-        with open('bond_token_abi.json', 'r') as ff:
+        with open('./kuma/bond_token_abi.json', 'r') as ff:
             self.bond_token_abi = json.load(ff)
 
-        with open('kuma_swap_abi.json', 'r') as ff:
+        with open('./kuma/kuma_swap_abi.json', 'r') as ff:
             self.kuma_swap_abi = json.load(ff)
 
     def mint_aick(self):
@@ -133,30 +133,3 @@ class Kuma(object):
                 return token_id_list
         else:
             return token_id_list
-
-
-if __name__ == '__main__':
-    with open('../wallet.json', 'r') as f:
-        wallets = json.load(f)
-    for wallet in wallets:
-        env = wallet['env']
-        logger.info(f"正在执行环境:{env}的Kuma项目交互操作")
-        address = wallet['address']
-        private_key = wallet['private_key']
-        kuma = Kuma(address, private_key)
-        try:
-            tx = kuma.mint_aick()
-        except Exception as e:
-            logger.error(f"环境:{wallet['env']}执行MintAICK失败，失败原因:{e}")
-
-        time.sleep(60)
-        try:
-            token_id_list = kuma.get_all_user_kuma_bond_tokens()
-            if len(token_id_list) > 0:
-                for token_id in token_id_list:
-                    time.sleep(30)
-                    kuma.approve(int(token_id))
-                    time.sleep(30)
-                    kuma.sell_bond(int(token_id))
-        except Exception as e:
-            logger.error(f"环境:{wallet['env']}执行SellBond失败，失败原因:{e}")
